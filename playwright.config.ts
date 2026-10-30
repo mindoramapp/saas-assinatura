@@ -32,6 +32,7 @@ export default defineConfig({
       APP_URL: url,
       BILLING_MODE: "fake",
       RESEND_API_KEY: "",
+      AUTH_RATE_LIMIT: "off",
       PLATFORM_ADMIN_EMAILS: "admin@orcai.dev",
     },
   },
