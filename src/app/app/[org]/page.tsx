@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge, Card, LinkButton, PageHeader } from "@/components/ui";
 import { db } from "@/lib/db";
@@ -7,6 +8,8 @@ import { QUOTE_STATUS, type QuoteStatus } from "@/lib/quotes";
 import { can } from "@/lib/rbac";
 import { requireOrgPage } from "@/lib/session";
 import { quotesThisMonth } from "@/lib/usage";
+
+export const metadata: Metadata = { title: "Orçamentos" };
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
