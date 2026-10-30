@@ -20,7 +20,11 @@ export async function makeOrg(plan: "FREE" | "PRO" | "BUSINESS" = "FREE") {
   });
 }
 
-export async function addMember(orgId: string, role: Role, name = role) {
+export async function addMember(
+  orgId: string,
+  role: Role,
+  name: string = role,
+) {
   const user = await makeUser(name);
   const membership = await db.membership.create({
     data: { orgId, userId: user.id, role },

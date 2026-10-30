@@ -14,6 +14,7 @@ import {
   checkoutAction,
   endPeriodAction,
 } from "./actions";
+import { brandColorAction } from "../orcamentos/actions";
 import { noticeText } from "./notices";
 
 export const metadata: Metadata = { title: "Plano" };
@@ -200,6 +201,38 @@ export default async function PlanPage({
               </ActionForm>
             )}
           </div>
+        </Card>
+      )}
+
+      {can(role, "org:settings") && (
+        <Card className="mt-6">
+          <h2 className="mb-1 font-semibold">Cor da sua marca</h2>
+          {plan.customBranding ? (
+            <ActionForm
+              action={brandColorAction}
+              className="flex flex-wrap items-end gap-3"
+            >
+              <input type="hidden" name="orgSlug" value={slug} />
+              <label className="text-sm text-slate-600">
+                <span className="mb-1 block">
+                  Aparece no topo e no total de cada orçamento.
+                </span>
+                <input
+                  type="color"
+                  name="color"
+                  defaultValue={org.brandColor ?? "#1f57d6"}
+                  aria-label="Cor da marca"
+                  className="h-10 w-20 cursor-pointer rounded-lg border border-slate-300 bg-white p-1"
+                />
+              </label>
+              <SubmitButton variant="secondary">Salvar cor</SubmitButton>
+            </ActionForm>
+          ) : (
+            <p className="text-sm text-slate-600">
+              Disponível a partir do plano Pro: seus orçamentos com a cor da sua
+              marca.
+            </p>
+          )}
         </Card>
       )}
 
