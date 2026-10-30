@@ -1,0 +1,234 @@
+// Dev/testes: SQLite (DATABASE_URL=file:./dev.db). Produção: trocar o provider
+// para "postgresql" (o docker-compose.yml sobe um Postgres). Os campos de "enum"
+// são String validados em TypeScript (src/lib/plans.ts e src/lib/rbac.ts) para o
+// schema funcionar igual nos dois bancos.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---------- Better Auth (usuário, sessão, conta, verificação) ----------
+
+model User {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions    Session[]
+  accounts    Account[]
+  memberships Membership[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ---------- Organizações, papéis e convites ----------
+
+model Organization {
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  /// FREE | PRO | BUSINESS — derivado da assinatura pelo webhook.
+  plan             String   @default("FREE")
+  stripeCustomerId String?  @unique
+  brandColor       String?
+  createdAt        DateTime @default(now())
+
+  memberships   Membership[]
+  invitations   Invitation[]
+  subscriptions Subscription[]
+  quotes        Quote[]
+  auditLogs     AuditLog[]
+}
+
+model Membership {
+  id        String       @id @default(cuid())
+  orgId     String
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// owner | admin | member | viewer
+  role      String
+  createdAt DateTime     @default(now())
+
+  @@unique([orgId, userId])
+  @@index([userId])
+}
+
+model Invitation {
+  id          String       @id @default(cuid())
+  orgId       String
+  org         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  email       String
+  role        String
+  token       String       @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime     @default(now())
+
+  @@index([orgId])
+}
+
+// ---------- Cobrança (espelho das assinaturas do Stripe) ----------
+
+model Subscription {
+  /// Id da assinatura no Stripe (sub_...).
+  id                String       @id
+  orgId             String
+  org               Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  customerId        String
+  plan              String
+  /// Status do Stripe: active, trialing, past_due, canceled...
+  status            String
+  priceCents        Int
+  cancelAtPeriodEnd Boolean      @default(false)
+  currentPeriodEnd  DateTime?
+  canceledAt        DateTime?
+  /// `created` do último evento aplicado: eventos mais antigos que chegam
+  /// depois (fora de ordem) são ignorados.
+  lastEventAt       DateTime
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  @@index([orgId])
+}
+
+/// Idempotência dos webhooks: cada evento do Stripe é processado uma vez só.
+model ProcessedEvent {
+  id          String   @id
+  type        String
+  /// applied | stale | ignored
+  outcome     String
+  processedAt DateTime @default(now())
+}
+
+// ---------- Produto: orçamentos ----------
+
+model Quote {
+  id          String       @id @default(cuid())
+  orgId       String
+  org         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  number      Int
+  title       String
+  clientName  String
+  clientEmail String?
+  notes       String?
+  /// DRAFT | SENT | ACCEPTED
+  status      String       @default("DRAFT")
+  validUntil  DateTime
+  publicToken String       @unique
+  createdById String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  acceptedAt  DateTime?
+
+  items QuoteItem[]
+
+  @@unique([orgId, number])
+  @@index([orgId, createdAt])
+}
+
+model QuoteItem {
+  id          String @id @default(cuid())
+  quoteId     String
+  quote       Quote  @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Int
+  unitCents   Int
+  position    Int
+}
+
+// ---------- Auditoria, analytics e e-mails ----------
+
+model AuditLog {
+  id        String       @id @default(cuid())
+  orgId     String
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  /// null quando a ação veio do sistema (ex.: webhook do Stripe).
+  actorId   String?
+  action    String
+  target    String?
+  /// JSON com detalhes da ação.
+  metadata  String       @default("{}")
+  createdAt DateTime     @default(now())
+
+  @@index([orgId, createdAt])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String?
+  orgId     String?
+  createdAt DateTime @default(now())
+
+  @@index([name, createdAt])
+  @@index([createdAt])
+}
+
+/// Caixa de saída de desenvolvimento: sem RESEND_API_KEY, os e-mails ficam aqui
+/// e aparecem em /dev/emails.
+model OutboxEmail {
+  id        String   @id @default(cuid())
+  to        String
+  subject   String
+  html      String
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: file:./ci.db
+      BETTER_AUTH_SECRET: segredo-do-ci-com-mais-de-32-caracteres
+      BETTER_AUTH_URL: http://localhost:3100
+      APP_URL: http://localhost:3100
+      BILLING_MODE: fake
+      STRIPE_SECRET_KEY: sk_test_fake
+      STRIPE_WEBHOOK_SECRET: whsec_ci_secret
+      STRIPE_PRICE_PRO: price_pro_mensal
+      STRIPE_PRICE_BUSINESS: price_business_mensal
+      PLATFORM_ADMIN_EMAILS: admin@orcai.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx prisma db push
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
