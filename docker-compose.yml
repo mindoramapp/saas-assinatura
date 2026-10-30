@@ -1,0 +1,17 @@
+# Sobe o Orçaí com um comando: docker compose up --build
+# Banco: SQLite num volume (o mesmo do dev). Para Postgres, ver README → "Trocar para Postgres".
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    environment:
+      DATABASE_URL: file:/data/orcai.db
+      APP_URL: http://localhost:3000
+      BETTER_AUTH_URL: http://localhost:3000
+    volumes:
+      - orcai-data:/data
+
+volumes:
+  orcai-data:
