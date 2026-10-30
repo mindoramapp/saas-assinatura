@@ -65,11 +65,9 @@ export default async function QuoteDetailPage({
           <CopyLink url={publicUrl} />
           <a
             href={`/p/${quote.publicToken}`}
-            target="_blank"
-            rel="noreferrer"
             className="text-brand-600 mt-2 inline-block text-sm font-semibold hover:underline"
           >
-            Ver como o cliente vê ↗
+            Ver como o cliente vê →
           </a>
           {canWrite && quote.status === "DRAFT" && (
             <ActionForm action={markSentAction} className="mt-4">

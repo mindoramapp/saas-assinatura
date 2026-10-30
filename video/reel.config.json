@@ -1,0 +1,263 @@
+{
+  "dia": "Dia 5 de 22",
+  "titulo": "Venda por assinatura",
+  "subtitulo": "Orçamento, aprovação e cobrança no automático.",
+  "subtituloDestaque": "no automático.",
+  "cores": ["#1f57d6", "#34d399"],
+  "duracao": 36,
+  "cenas": [
+    {
+      "tipo": "app",
+      "segundos": 22.5,
+      "url": "http://localhost:3000/",
+      "legenda": "Seu negócio com sistema próprio",
+      "destaque": "sistema próprio",
+      "passos": [
+        {
+          "acao": "ir",
+          "url": "http://localhost:3000/cadastro",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Seu nome",
+          "texto": "Ana",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "E-mail",
+          "texto": "ana{agora}@exemplo.dev",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Senha",
+          "texto": "senha-segura-123",
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Criar conta grátis",
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 2500,
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Nome da empresa",
+          "texto": "Doceria da Ana",
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Criar empresa",
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 2500,
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "link",
+          "nome": "+ Novo orçamento",
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 1500,
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Título",
+          "texto": "Bolo de casamento",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Nome do cliente",
+          "texto": "Carla Souza",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Descrição do item 1",
+          "texto": "Bolo 3 andares",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Preço do item 1",
+          "texto": "850,00",
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "+ Adicionar item",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Descrição do item 2",
+          "texto": "Docinhos finos",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Quantidade do item 2",
+          "texto": "200",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Preço do item 2",
+          "texto": "2,50",
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 500,
+          "legenda": "Orçamento em 2 minutos, conta certa",
+          "destaque": "conta certa",
+          "rolarPara": "[data-testid=total]"
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Criar orçamento",
+          "pausa": 2000,
+          "rolarTopo": true,
+          "legenda": "Bonito e profissional",
+          "destaque": "profissional"
+        },
+        {
+          "acao": "tocar",
+          "papel": "link",
+          "nome": "Ver como o cliente vê →",
+          "pausa": 2000,
+          "rolarTopo": true,
+          "legenda": "O cliente abre no celular",
+          "destaque": "no celular"
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Aprovar orçamento",
+          "pausa": 1500,
+          "legenda": "Aprovou com um toque!",
+          "destaque": "um toque!"
+        },
+        {
+          "acao": "ir",
+          "url": "http://localhost:3000/app",
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "link",
+          "nome": "Plano",
+          "exato": true,
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 800,
+          "rolarTopo": true,
+          "legenda": "Planos e mensalidade no automático",
+          "destaque": "no automático"
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Assinar Pro",
+          "foto": false,
+          "toque": true
+        },
+        {
+          "acao": "esperar",
+          "ms": 1500,
+          "rolarTopo": true,
+          "legenda": "Pagamento simples e seguro",
+          "destaque": "simples e seguro"
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Pagar R$ 49,00",
+          "foto": false,
+          "toque": true
+        },
+        {
+          "acao": "esperar",
+          "ms": 2500,
+          "rolarTopo": true,
+          "legenda": "Assinatura ativa. Receita todo mês!",
+          "destaque": "Receita todo mês!"
+        },
+        {
+          "acao": "ir",
+          "url": "http://localhost:3000/entrar?next=/admin",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "E-mail",
+          "texto": "admin@orcai.dev",
+          "foto": false
+        },
+        {
+          "acao": "digitar",
+          "rotulo": "Senha",
+          "texto": "admin-orcai-2026",
+          "foto": false
+        },
+        {
+          "acao": "tocar",
+          "papel": "button",
+          "nome": "Entrar",
+          "exato": true,
+          "foto": false
+        },
+        {
+          "acao": "esperar",
+          "ms": 3500,
+          "rolarTopo": true,
+          "legenda": "Faturamento do mês na palma da mão",
+          "destaque": "na palma da mão"
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "segundos": 5,
+      "arquivo": "src/lib/billing/webhook.ts",
+      "linhas": [56, 57, 58, 60, 75, 78, 80],
+      "realce": [58, 80],
+      "legenda": "Ninguém é cobrado duas vezes",
+      "destaque": "duas vezes"
+    }
+  ],
+  "fim": {
+    "linha1": "Quer um sistema assim?",
+    "servicos": [
+      "Criação de sites e sistemas",
+      "Reforma do seu site atual",
+      "Mais clientes pela internet"
+    ],
+    "cta": "Me chama no direct",
+    "arroba": "@ideia_enegocios"
+  },
+  "duracoes": {
+    "abertura": 3.5,
+    "fim": 5
+  }
+}

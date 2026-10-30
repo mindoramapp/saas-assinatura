@@ -115,4 +115,10 @@ Comece apresentando o plano da Fase 1.
 
 ## Estado e diário
 
-- **Status:** não iniciado.
+- **Status:** MVP concluído em 30/10/2026 ("Orçaí").
+- **30/10/2026:** 7 commits na `main`, sem remoto. Fases: base (Next 16.4, Prisma 7/SQLite, CI) → Better Auth + organizações, convites e RBAC → cobrança simulada com webhooks Stripe assinados (idempotência, eventos fora de ordem) → orçamentos com link público de aprovação, cor da marca (gating) e auditoria com CSV → painel `/admin` (MRR, churn, DAU/MAU, ativação) + seed de 12 meses → README, Docker → Reel.
+  - Testes: 49 Vitest (unidade + integração) e 7 E2E Playwright, todos passando. Lint, typecheck, prettier e build OK.
+  - Seed: `npm run db:seed` (credenciais de teste no topo de `prisma/seed.ts`). O `dev.db` também tem as empresas "Doceria da Ana" criadas pelas gravações do Reel.
+  - Reel no formato novo, 36 s (abertura 3,5 s; app 22,5 s com 9 quadros de 2,5 s: landing → orçamento com total → orçamento pronto → cliente abre → aprova → planos → checkout → assinatura ativa → painel de faturamento; código 5 s; fim 5 s), capa e legenda em `video/`. Para gravar: `AUTH_RATE_LIMIT=off npx next start -p 3000` e `node ../_video/gerar-reel.mjs ../P05_saas-assinatura`.
+  - O link "Ver como o cliente vê" abre na mesma aba (o gerador do Reel não segue abas novas).
+  - **Pendente:** Docker/Compose não testados; modo `BILLING_MODE=stripe` escrito, não testado (Billing Portal não ligado); troca para Postgres só documentada. Ver "Próximos passos" no README.

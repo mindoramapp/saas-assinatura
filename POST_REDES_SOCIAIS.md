@@ -1,15 +1,15 @@
 # Post — Projeto 5
 
-Texto para Instagram e Facebook, com foco em atrair clientes. Confira se tudo o que o texto diz ficou pronto antes de postar.
+Texto para Instagram e Facebook, com foco em atrair clientes. Revisado em 30/10/2026 contra o MVP pronto (cópia em `video/LEGENDA_INSTAGRAM.txt`). Os pagamentos da demonstração são simulados; por isso o texto não promete cobrança real em cartão.
 
 ```text
 Quer vender por assinatura? 💳
 
-Dia 5/22: uma plataforma completa de assinatura, com cadastro, planos, cobrança recorrente, área do cliente e um painel com as métricas do negócio.
+Dia 5/22: uma plataforma completa de assinatura. Neste exemplo, um sistema de orçamentos: o cliente monta o orçamento em minutos, manda o link e recebe a aprovação pelo celular. Tem planos com mensalidade, equipe com níveis de acesso, registro de tudo o que foi feito e um painel com o faturamento do mês.
 
 É a base para cursos, clubes, mentorias, softwares e qualquer serviço com mensalidade. Receita recorrente começa com um sistema que funciona sozinho.
 
-Quer um site novo ou melhorar o que você já tem? Me chama no direct @ideia_enegocios 💬
+Quer um site ou sistema novo, ou melhorar o que você já tem? Me chama no direct @ideia_enegocios 💬
 
 #assinatura #negociosdigitais #infoprodutos #ideiaenegocios #empreendedorismo #negocios #marketingdigital
 ```
